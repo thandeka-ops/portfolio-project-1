@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+venv/
+
+# Environment Variables
+.env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Pytest
+.pytest_cache/
+
+# Docker
+*.tar
+
+# Coverage
+htmlcov/
+.coverage
+
+# Python distribution
+build/
+dist/
+*.egg-info/# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+venv/
+
+# Environment Variables
+.env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Pytest
+.pytest_cache/
+
+# Docker
+*.tar
+
+# Coverage
+htmlcov/
+.coverage
+
+# Python distribution
+build/
+dist/
+*.egg-info/
