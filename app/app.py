@@ -1,17 +1,14 @@
-import os
 from flask import Flask, jsonify
+import os
 
 app = Flask(__name__)
-
-APP_NAME = os.getenv("APP_NAME", "Flask DevOps Portfolio")
-APP_ENV = os.getenv("APP_ENV", "Development")
 
 
 @app.route("/")
 def home():
     return jsonify({
-        "application": APP_NAME,
-        "environment": APP_ENV,
+        "application": os.getenv("APP_NAME", "Flask DevOps Portfolio"),
+        "environment": os.getenv("APP_ENV", "Development"),
         "status": "Running Successfully"
     })
 
@@ -20,6 +17,14 @@ def home():
 def health():
     return jsonify({
         "status": "healthy"
+    }), 200
+
+
+@app.route("/version")
+def version():
+    return jsonify({
+        "application": os.getenv("APP_NAME", "Flask DevOps Portfolio"),
+        "version": "1.0.0"
     })
 
 
