@@ -7,11 +7,9 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -31,13 +29,10 @@ jobs:
           pytest
 
   docker:
-
     needs: test
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -54,3 +49,30 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push tholiwe/portfolio-project-1:latest
+
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull tholiwe/portfolio-project-1:latest
+
+            docker stop portfolio-api || true
+            docker rm portfolio-api || true
+
+            docker run -d \
+              --name portfolio-api \
+              --restart unless-stopped \
+              -p 80:5000 \
+              -e APP_NAME="Tholiwe DevOps Portfolio" \
+              -e APP_ENV="Production" \
+              tholiwe/portfolio-project-1:latest
+
+            docker image prune -f
