@@ -1,11 +1,20 @@
 from flask import Flask, jsonify
+import logging
 import os
 
 app = Flask(__name__)
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s"
+)
+
+logger = logging.getLogger(__name__)
+
 
 @app.route("/")
 def home():
+    logger.info("GET /")
     return jsonify({
         "application": os.getenv("APP_NAME", "Flask DevOps Portfolio"),
         "environment": os.getenv("APP_ENV", "Development"),
@@ -15,6 +24,7 @@ def home():
 
 @app.route("/health")
 def health():
+    logger.info("GET /health")
     return jsonify({
         "status": "healthy"
     }), 200
@@ -22,9 +32,21 @@ def health():
 
 @app.route("/version")
 def version():
+    logger.info("GET /version")
     return jsonify({
         "application": os.getenv("APP_NAME", "Flask DevOps Portfolio"),
         "version": "1.0.0"
+    })
+
+
+@app.route("/metrics")
+def metrics():
+    logger.info("GET /metrics")
+    return jsonify({
+        "application": os.getenv("APP_NAME", "Flask DevOps Portfolio"),
+        "status": "healthy",
+        "version": "1.0.0",
+        "environment": os.getenv("APP_ENV", "Development")
     })
 
 
