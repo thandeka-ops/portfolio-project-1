@@ -49,7 +49,7 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push tholiwe/portfolio-project-1:latest
-deploy:
+  deploy:
 
   needs: docker
 
@@ -76,4 +76,4 @@ deploy:
             --restart unless-stopped \
             tholiwe/portfolio-project-1:latest
             
-            docker image prune -f
+           sudo docker image prune -f
