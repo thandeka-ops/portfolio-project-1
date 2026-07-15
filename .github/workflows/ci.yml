@@ -49,30 +49,31 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push tholiwe/portfolio-project-1:latest
+deploy:
 
-  deploy:
-    needs: docker
-    runs-on: ubuntu-latest
+  needs: docker
 
-    steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            docker pull tholiwe/portfolio-project-1:latest
+  runs-on: ubuntu-latest
 
-            docker stop portfolio-api || true
-            docker rm portfolio-api || true
+  steps:
 
-            docker run -d \
-              --name portfolio-api \
-              --restart unless-stopped \
-              -p 80:5000 \
-              -e APP_NAME="Tholiwe DevOps Portfolio" \
-              -e APP_ENV="Production" \
-              tholiwe/portfolio-project-1:latest
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
 
+        script: |
+          sudo docker pull tholiwe/portfolio-project-1:latest
+
+          sudo docker stop portfolio-api || true
+          sudo docker rm portfolio-api || true
+
+          sudo docker run -d \
+            --name portfolio-api \
+            -p 80:5000 \
+            --restart unless-stopped \
+            tholiwe/portfolio-project-1:latest
+            
             docker image prune -f
