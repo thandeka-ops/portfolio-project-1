@@ -18,7 +18,7 @@ def home():
     return jsonify({
         "application": os.getenv("APP_NAME", "Flask DevOps Portfolio"),
         "environment": os.getenv("APP_ENV", "Development"),
-        "status": "Running Successfully"
+        "status": "Automatically deployed by GitHub Actions"
     })
 
 
@@ -45,7 +45,7 @@ def metrics():
     return jsonify({
         "application": os.getenv("APP_NAME", "Flask DevOps Portfolio"),
         "status": "healthy",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "environment": os.getenv("APP_ENV", "Development")
     })
 
